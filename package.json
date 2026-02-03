@@ -1,0 +1,9 @@
+{
+  "name": "vera-ai-fullstack",
+  "private": true,
+  "scripts": {
+    "install": "npm install --prefix vera-ai-backend && npm install --prefix vera-ai-frontend",
+    "build": "npm run build --prefix vera-ai-frontend",
+    "start": "node vera-ai-backend/server.js"
+  }
+}
