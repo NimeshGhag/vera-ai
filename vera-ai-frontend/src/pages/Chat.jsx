@@ -22,6 +22,7 @@ import {
 } from "../redux/selectors/chatSelectors";
 import axios from "../api/axios";
 import { io } from "socket.io-client";
+const SOCKET_URL = import.meta.env.VITE_BASE_URL || 'https://vera-ai-oul1.onrender.com';
 
 const Chat = () => {
   const dispatch = useDispatch();
@@ -65,7 +66,7 @@ const Chat = () => {
         }
       });
 
-    const newSocket = io("http://localhost:3000", {
+    const newSocket = io(SOCKET_URL, {
       withCredentials: true,
     });
 

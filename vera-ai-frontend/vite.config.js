@@ -8,7 +8,7 @@ export default defineConfig({
     proxy: {
       // Proxy any request starting with /api to the backend server
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'https://vera-ai-oul1.onrender.com',
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, '/api')
