@@ -20,7 +20,6 @@ const Register = () => {
   async function handleSubmit(e) {
     e.preventDefault();
     setSubmitting(true);
-    console.log(form);
     try {
       const response = await axios.post(
         "/auth/register",
