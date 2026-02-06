@@ -22,7 +22,8 @@ import {
 } from "../redux/selectors/chatSelectors";
 import axios from "../api/axios";
 import { io } from "socket.io-client";
-const SOCKET_URL = import.meta.env.VITE_BASE_URL || 'https://vera-ai-oul1.onrender.com';
+const SOCKET_URL =
+  import.meta.env.VITE_BASE_URL || "https://vera-ai-oul1.onrender.com";
 
 const Chat = () => {
   const dispatch = useDispatch();
@@ -79,7 +80,13 @@ const Chat = () => {
     //  Handle incoming AI responses
     newSocket.on("ai-response", (message) => {
       try {
-        dispatch(addMessage({ role: "ai", content: message.content }));
+        dispatch(
+          addMessage({
+            role: "ai",
+            content: message.content,
+            chatId: message.chat,
+          }),
+        );
       } catch (error) {
         dispatch(
           addMessage({
@@ -118,7 +125,13 @@ const Chat = () => {
         { title: chatTitle },
         { withCredentials: true },
       );
-      dispatch(addChat(chatTitle));
+
+      const newChat = response.data.chat;
+
+      dispatch(addChat(newChat));
+      dispatch(setCurrentChat(newChat._id));
+
+      await getmessages(newChat._id);
       setSidebarOpen(false);
     },
     [dispatch],
@@ -131,7 +144,9 @@ const Chat = () => {
     setIsSending(true);
 
     // Add user message to Redux
-    dispatch(addMessage({ role: "user", content: trimmed }));
+    dispatch(
+      addMessage({ role: "user", content: trimmed, chatId: activeChatId }),
+    );
     setInput("");
 
     // send user message via socket
@@ -151,11 +166,11 @@ const Chat = () => {
         withCredentials: true,
       });
 
-
       // Dispatch each message individually
       response.data.messages.map((msg) =>
         dispatch(
           addMessage({
+            chatId,
             role: msg.role === "user" ? "user" : "ai",
             content: msg.content,
           }),

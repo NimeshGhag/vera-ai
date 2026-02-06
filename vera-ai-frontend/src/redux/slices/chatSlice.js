@@ -15,15 +15,17 @@ const chatSlice = createSlice({
   reducers: {
     // Create a new chat with a title
     addChat: (state, action) => {
-      const newChat = {
-        id: uid(),
-        title: action.payload,
+      const chat = action.payload;
+
+      state.chats.unshift({
+        ...chat,
+        id: chat.id || chat._id,
         messages: [],
-        createdAt: Date.now(),
-      };
-      state.chats.unshift(newChat);
-      state.currentChatId = newChat.id;
+      });
+
+      state.currentChatId = chat.id || chat._id;
     },
+    
     // Set all chats
     setChats(state, action) {
       // Handle cases where payload might be an object with chats property or directly an array
@@ -32,10 +34,12 @@ const chatSlice = createSlice({
         : action.payload?.chats || [];
       // Ensure each chat has a messages property
       state.chats = chats.map((chat) => ({
-        // Normalize id field: prefer existing id, otherwise use _id from server
-        id: chat.id || chat._id || uid(),
         // keep any other properties
         ...chat,
+
+        // Normalize id field: prefer existing id, otherwise use _id from server
+        id: chat.id || chat._id || uid(),
+
         // ensure messages array exists
         messages: chat.messages || [],
       }));
@@ -48,8 +52,11 @@ const chatSlice = createSlice({
 
     // Add a message to the current chat
     addMessage: (state, action) => {
-      const chatId = state.currentChatId;
+      const chatId = action.payload.chatId || state.currentChatId;
+
       const chat = state.chats.find((c) => c.id === chatId);
+      if (!chat) return;
+
       if (chat) {
         chat.messages.push({
           id: uid(),
