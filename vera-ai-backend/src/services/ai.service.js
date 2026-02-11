@@ -35,6 +35,13 @@ async function generateResponse(content) {
         - The user is a MERN stack developer building real projects.
         - Prefer practical, step-by-step explanations.
 
+        # ANSWER LENGTH CONTROL
+        - Default to short answers.
+        - For definition or concept questions, respond using 3 to 5 concise bullet points only.
+        - Do not include setup steps, installation, or tutorials unless the user explicitly asks.
+        - Include examples or code only when the user asks for them.
+
+
 `,
     },
   });

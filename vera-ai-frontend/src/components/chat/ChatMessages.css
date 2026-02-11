@@ -40,6 +40,18 @@
     font-size: var(--text-sm);
 }
 
+.msg-bubble table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.msg-bubble th,
+.msg-bubble td {
+  border: 1px solid #ddd;
+  padding: 6px 8px;
+}
+
+
 .msg-user .msg-bubble {
     background: linear-gradient(180deg, #1f1f1f, #161616);
     color: #fafafa;

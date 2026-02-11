@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import ReactMarkdown from "react-markdown";
 import "./ChatMessages.css";
 
 const ChatMessages = ({ messages, isSending }) => {
@@ -8,7 +9,7 @@ const ChatMessages = ({ messages, isSending }) => {
   }, [messages.length, isSending]);
   return (
     <div className="messages" aria-live="polite">
-      {messages.map((m,index) => (
+      {messages.map((m, index) => (
         <div
           key={index}
           className={`msg msg-${m.role}${m.error ? " msg-error" : ""}`}
@@ -16,7 +17,9 @@ const ChatMessages = ({ messages, isSending }) => {
           <div className="msg-role" aria-hidden="true">
             {m.role === "user" ? "You" : "AI"}
           </div>
-          <div className="msg-bubble">{m.content}</div>
+          <div className="msg-bubble">
+            <ReactMarkdown>{m.content}</ReactMarkdown>
+          </div>
           <div
             className="msg-actions"
             role="group"
